@@ -4,6 +4,7 @@
   "description": "Generate and publish a public key based on meshblu.json credentials",
   "main": "index.js",
   "scripts": {
+    "start": "node command.js",
     "test": "mocha"
   },
   "repository": {
@@ -23,9 +24,15 @@
   "homepage": "https://github.com/octoblu/publish-meshblu-key",
   "devDependencies": {
     "chai": "^1.10.0",
-    "coffee-script": "^1.8.0",
     "mocha": "^2.1.0",
     "sinon": "^1.12.2",
     "sinon-chai": "^2.6.0"
+  },
+  "dependencies": {
+    "coffee-script": "^1.8.0",
+    "colors": "^1.0.3",
+    "commander": "^2.6.0",
+    "lodash": "^3.0.0",
+    "meshblu": "^1.13.1"
   }
 }
