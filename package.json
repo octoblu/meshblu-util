@@ -1,0 +1,31 @@
+{
+  "name": "publish-meshblu-key",
+  "version": "1.0.0",
+  "description": "Generate and publish a public key based on meshblu.json credentials",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/octoblu/publish-meshblu-key.git"
+  },
+  "keywords": [
+    "meshblu",
+    "octoblu",
+    "gateblu"
+  ],
+  "author": "Octoblu Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/octoblu/publish-meshblu-key/issues"
+  },
+  "homepage": "https://github.com/octoblu/publish-meshblu-key",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "coffee-script": "^1.8.0",
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.6.0"
+  }
+}
