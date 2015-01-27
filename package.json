@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
+  "bin": "./command.js",
   "scripts": {
     "start": "node command.js",
     "test": "mocha"
