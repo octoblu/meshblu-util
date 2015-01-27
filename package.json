@@ -1,7 +1,7 @@
 {
-  "name": "publish-meshblu-key",
+  "name": "meshblu-util",
   "version": "1.0.0",
-  "description": "Generate and publish a public key based on meshblu.json credentials",
+  "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "scripts": {
     "start": "node command.js",
