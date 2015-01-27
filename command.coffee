@@ -11,7 +11,7 @@ class Command
 
   parseConfig: (filename) =>
     try
-      JSON.parse fs.readFileSync path.join('.', filename)
+      JSON.parse fs.readFileSync path.resolve(filename)
     catch error
       console.error colors.yellow error.message
       console.error colors.red '\n  Unable to open a valid meshblu.json file'
@@ -41,7 +41,7 @@ class Command
     {@publicKey, @privateKey} = @meshblu.generateKeyPair()
 
     @config.privateKey = @privateKey
-    fs.writeFileSync path.join('.', @filename), JSON.stringify(@config, null, 2)
+    fs.writeFileSync path.resolve(@filename), JSON.stringify(@config, null, 2)
     @meshblu.update publicKey: @publicKey, (response) =>
       if response.error? || response.message
         console.error colors.red(response.error ? response.message)
