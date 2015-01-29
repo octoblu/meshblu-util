@@ -1,15 +1,34 @@
 commander = require 'commander'
+_         = require 'lodash'
 meshblu   = require 'meshblu'
+url       = require 'url'
+
+DEFAULT_HOST = 'meshblu.octoblu.com'
+DEFAULT_PORT = 80
 
 class KeygenCommand
   parseOptions: =>
     commander
+      .option '-s, --server <host[:port]>', 'Meshblu host'
       .parse process.argv
+
+  parseConfig: =>
+    unless commander.server?
+      return {server: DEFAULT_HOST, port: DEFAULT_PORT}
+
+    server = commander.server
+    unless _.startsWith server, 'ws'
+      protocol = if port == 443 then 'wss://' else 'ws://'
+      server = protocol + server
+
+    {hostname, port} = url.parse server
+    port ?= 80
+    {server: hostname, port: port}
 
   run: =>
     @parseOptions()
-
-    @config = {server: 'meshblu.octoblu.com', port: 80, uuid: 'wrong'}
+    @config = @parseConfig()
+    @config.uuid = 'wrong' # to force a notReady
     @conn = meshblu.createConnection @config
     @conn.on 'notReady', @onReady
 
