@@ -19,7 +19,8 @@ class Meshblu
     @connection.on 'message', callback
 
   whoami: (callback=->) =>
-    @connection.whoami {uuid: @config.uuid}, callback
+    @connection.devices {uuid: @config.uuid}, (data) =>
+      callback data.error, _.first data.devices
 
   update: (data, callback) =>
     query = _.defaults {uuid: @config.uuid}, data

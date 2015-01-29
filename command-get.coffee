@@ -34,7 +34,7 @@ class GetCommand
     @meshblu = new Meshblu @config, @afterConnect
 
   afterConnect: =>
-    @meshblu.whoami (data) =>
+    @meshblu.whoami (error, data) =>
       console.log JSON.stringify(data, null, 2)
       process.exit 0
 
