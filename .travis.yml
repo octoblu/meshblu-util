@@ -8,7 +8,7 @@ deploy:
   clean_up: false
   email: sqrt@octoblu.com
   api_key:
-    secure: SOUyJT6CHv5W/byVSLOtAWjsCfqWe93UYYJO87y15Ztwlrpdi9J4WQ3OLaDhUSciCvI/kM5cq8hPG+x1hKWqNWdeRubUA3UZY5gbpfVCj4Up9g0WcGyjUCQnYCcKr6Ag6cYPNxJ9GVpqLq3FvS49m1a69llehDM8MWl/fWBG9RI=
+    secure: UaULSjJNoVUL5f0fov/vJt1g13s+sRPJm1rCqqRNJfvc/iG14/97ojOF4GRrfYYq9cmtteujpBTqxDW7czzbW+wCP40R5qtexWm0H93yzYZUIwAD80qgg5b9FNwJoUDfJJ2+LNZ0K7vY49+HoJMMd9HJgZxpTPPpW9coqNTzMZ0=
   on:
     tags: true
     all_branches: true
