@@ -1,6 +1,6 @@
+_       = require 'lodash'
 meshblu = require 'meshblu'
-url    = require 'url'
-_ = require 'lodash'
+url     = require 'url'
 
 class Meshblu
   constructor: (config, callback=->) ->
@@ -17,6 +17,9 @@ class Meshblu
 
   onMessage: (callback=->) =>
     @connection.on 'message', callback
+
+  whoami: (callback=->) =>
+    @connection.whoami {uuid: @config.uuid}, callback
 
   update: (data, callback) =>
     query = _.defaults {uuid: @config.uuid}, data
