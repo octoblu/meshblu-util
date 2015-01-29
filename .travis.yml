@@ -4,9 +4,11 @@ node_js:
 use_sudo: false
 deploy:
   provider: npm
+  skip_cleanup: true
+  clean_up: false
   email: sqrt@octoblu.com
   api_key:
     secure: SOUyJT6CHv5W/byVSLOtAWjsCfqWe93UYYJO87y15Ztwlrpdi9J4WQ3OLaDhUSciCvI/kM5cq8hPG+x1hKWqNWdeRubUA3UZY5gbpfVCj4Up9g0WcGyjUCQnYCcKr6Ag6cYPNxJ9GVpqLq3FvS49m1a69llehDM8MWl/fWBG9RI=
   on:
     tags: true
-    repo: octoblu/meshblu-util
+    all_branches: true
