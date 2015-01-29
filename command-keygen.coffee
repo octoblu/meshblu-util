@@ -6,8 +6,6 @@ path      = require 'path'
 Meshblu     = require './src/meshblu'
 
 class KeygenCommand
-  constructor: ->
-
   parseConfig: (filename) =>
     try
       JSON.parse fs.readFileSync path.resolve(filename)
