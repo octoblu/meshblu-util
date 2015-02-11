@@ -10,6 +10,7 @@ class KeygenCommand
   parseOptions: =>
     commander
       .option '-s, --server <host[:port]>', 'Meshblu host'
+      .option '-t, --type <device:type>', 'Device type'
       .parse process.argv
 
   parseConfig: =>
@@ -23,7 +24,7 @@ class KeygenCommand
 
     {hostname, port} = url.parse server
     port ?= 80
-    {server: hostname, port: port}
+    {server: hostname, port: port, type: commander.type}
 
   run: =>
     @parseOptions()
@@ -33,7 +34,7 @@ class KeygenCommand
     @conn.on 'notReady', @onReady
 
   onReady: (credentials) =>
-    @conn.register {}, (credentials) =>
+    @conn.register {type: @config.type}, (credentials) =>
       @config.uuid = credentials.uuid
       @config.token = credentials.token
       console.log JSON.stringify(@config, null, 2)
