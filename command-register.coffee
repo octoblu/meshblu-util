@@ -34,7 +34,8 @@ class KeygenCommand
     @conn.on 'notReady', @onReady
 
   onReady: (credentials) =>
-    @conn.register {type: @config.type}, (credentials) =>
+    deviceParams = discoverWhitelist: [], configureWhitelist: [], receiveWhitelist: [], type: @config.type
+    @conn.register deviceParams, (credentials) =>
       @config.uuid = credentials.uuid
       @config.token = credentials.token
       console.log JSON.stringify(@config, null, 2)
