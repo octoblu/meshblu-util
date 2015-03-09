@@ -14,17 +14,24 @@ class KeygenCommand
       .parse process.argv
 
   parseConfig: =>
+    {server, port} = @parseServer()
+
+    {server: server, port: port, type: commander.type}
+
+  parseServer: =>
     unless commander.server?
       return {server: DEFAULT_HOST, port: DEFAULT_PORT}
 
     server = commander.server
+
     unless _.startsWith server, 'ws'
       protocol = if port == 443 then 'wss://' else 'ws://'
       server = protocol + server
 
     {hostname, port} = url.parse server
     port ?= 80
-    {server: hostname, port: port, type: commander.type}
+
+    {server: hostname, port: port}
 
   run: =>
     @parseOptions()
