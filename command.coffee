@@ -10,6 +10,7 @@ class Command
                '            meshblu.json with the private key, \n' +
                '            and publish the public key'
       .command 'register', 'register a new device with Meshblu'
+      .command 'update',   'update an existing device in Meshblu'
       .parse process.argv
 
     unless commander.runningCommand
