@@ -2,7 +2,7 @@ commander = require 'commander'
 colors    = require 'colors'
 fs        = require 'fs'
 _         = require 'lodash'
-Meshblu   = require './src/Meshblu'
+Meshblu   = require './src/meshblu'
 path      = require 'path'
 
 class GetCommand
