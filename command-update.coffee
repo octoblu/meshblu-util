@@ -31,7 +31,7 @@ class GetCommand
 
   parseOptions: =>
     commander
-      .option '-d, --data \'{"name":"Some Device"}\'', 'Device Data [JSON]'
+      .option '-d, --data <\'{"name":"Some Device"}\'>', 'Device Data [JSON]'
       .option '-f, --file <path/to/updated-device.json>', 'Device Data [JSON FILE]'
       .usage '[options] <path/to/meshblu.json>'
       .parse process.argv
