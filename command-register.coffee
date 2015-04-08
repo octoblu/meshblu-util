@@ -11,7 +11,10 @@ class KeygenCommand
     commander
       .option '-s, --server <host[:port]>', 'Meshblu host'
       .option '-t, --type <device:type>', 'Device type'
+      .option '-d, --data <\'{"name":"Some Device"}\'>', 'Device Data [JSON]'
       .parse process.argv
+
+      @data = JSON.parse(commander.data) if commander.data?
 
   parseConfig: =>
     {server, port} = @parseServer()
@@ -42,9 +45,12 @@ class KeygenCommand
 
   onReady: (credentials) =>
     deviceParams = discoverWhitelist: [], configureWhitelist: [], receiveWhitelist: [], type: @config.type
+    _.extend(deviceParams, @data) if @data?
+    
     @conn.register deviceParams, (credentials) =>
       @config.uuid = credentials.uuid
       @config.token = credentials.token
+      _.extend(@config, @data) if @data?
       console.log JSON.stringify(@config, null, 2)
       process.exit 0
 
