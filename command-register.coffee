@@ -12,9 +12,11 @@ class KeygenCommand
       .option '-s, --server <host[:port]>', 'Meshblu host'
       .option '-t, --type <device:type>', 'Device type'
       .option '-d, --data <\'{"name":"Some Device"}\'>', 'Device Data [JSON]'
+      .option '-o, --open', "Make the device open to everyone"
       .parse process.argv
 
       @data = JSON.parse(commander.data) if commander.data?
+      @isOpen = commander.open?
 
   parseConfig: =>
     {server, port} = @parseServer()
@@ -44,8 +46,22 @@ class KeygenCommand
     @conn.on 'notReady', @onReady
 
   onReady: (credentials) =>
-    deviceParams = discoverWhitelist: [], configureWhitelist: [], receiveWhitelist: [], type: @config.type
-    _.extend(deviceParams, @data) if @data?
+    lockedDownParams =
+      discoverWhitelist: [],
+      configureWhitelist: [],
+      receiveWhitelist: []
+
+    openParams =
+      discoverWhitelist: ['*']
+      configureWhitelist: ['*']
+      receiveWhitelist: ['*']
+
+    deviceParams =
+      type: @config.type
+
+    _.extend deviceParams, lockedDownParams unless @isOpen
+    _.extend deviceParams, openParams if @isOpen
+    _.extend deviceParams, @data if @data?
     
     @conn.register deviceParams, (credentials) =>
       @config.uuid = credentials.uuid
