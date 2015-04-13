@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/octoblu/publish-meshblu-key.git"
+    "url": "https://github.com/octoblu/meshblu-util.git"
   },
   "keywords": [
     "meshblu",
@@ -26,9 +26,9 @@
   "author": "Octoblu Inc.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/octoblu/publish-meshblu-key/issues"
+    "url": "https://github.com/octoblu/meshblu-util/issues"
   },
-  "homepage": "https://github.com/octoblu/publish-meshblu-key",
+  "homepage": "https://github.com/octoblu/meshblu-util",
   "devDependencies": {
     "chai": "^1.10.0",
     "mocha": "^2.1.0",
