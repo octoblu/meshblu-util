@@ -1,7 +1,10 @@
 commander = require 'commander'
+colors    = require 'colors'
+fs        = require 'fs'
 _         = require 'lodash'
 meshblu   = require 'meshblu'
 url       = require 'url'
+path      = require 'path'
 
 DEFAULT_HOST = 'meshblu.octoblu.com'
 DEFAULT_PORT = 80
@@ -13,10 +16,23 @@ class KeygenCommand
       .option '-t, --type <device:type>', 'Device type'
       .option '-d, --data <\'{"name":"Some Device"}\'>', 'Device Data [JSON]'
       .option '-o, --open', "Make the device open to everyone"
+      .option '-f, --file <path/to/updated-device.json>', 'Device Data [JSON FILE]'
       .parse process.argv
 
       @data = JSON.parse(commander.data) if commander.data?
       @isOpen = commander.open?
+      @registerFileName = commander.file
+      @data = _.defaults(@data, @parseRegister(@registerFileName)) if @registerFileName?
+
+
+  parseRegister: (filename) =>
+    try
+      JSON.parse fs.readFileSync path.resolve(filename)
+    catch error
+      console.error colors.yellow error.message
+      console.error colors.red '\n  Unable to open a valid register-device.json file'
+      commander.outputHelp()
+      process.exit 1
 
   parseConfig: =>
     {server, port} = @parseServer()
@@ -62,7 +78,7 @@ class KeygenCommand
     _.extend deviceParams, lockedDownParams unless @isOpen
     _.extend deviceParams, openParams if @isOpen
     _.extend deviceParams, @data if @data?
-    
+
     @conn.register deviceParams, (credentials) =>
       @config.uuid = credentials.uuid
       @config.token = credentials.token
