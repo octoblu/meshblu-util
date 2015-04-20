@@ -5,12 +5,13 @@ url       = require 'url'
 
 DEFAULT_HOST = 'meshblu.octoblu.com'
 DEFAULT_PORT = 80
+DEFAULT_TIMEOUT = 10000
 
 class KeygenCommand
   parseOptions: =>
     commander
-      .option '-s, --server <host[:port]>', 'Meshblu host'
-      .option '-t, --timeout <milliseconds>', 'Request timeout'
+      .option '-s, --server <host[:port]>', "Meshblu host (default #{DEFAULT_HOST}:#{DEFAULT_PORT})"
+      .option '-t, --timeout <milliseconds>', "Request timeout (default #{DEFAULT_TIMEOUT})"
       .parse process.argv
 
       @data = JSON.parse(commander.data) if commander.data?
@@ -18,7 +19,7 @@ class KeygenCommand
 
   parseConfig: =>
     {server, port} = @parseServer()
-    {server: server, port: port, timeout: commander.timeout || 10000}
+    {server: server, port: port, timeout: commander.timeout || DEFAULT_TIMEOUT}
 
   parseServer: =>
     unless commander.server?
