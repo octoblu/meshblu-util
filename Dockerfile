@@ -8,3 +8,4 @@ COPY package.json /usr/src/app/
 RUN npm install
 COPY *.js /usr/src/app/
 COPY *.coffee /usr/src/app/
+RUN npm link
