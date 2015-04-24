@@ -75,9 +75,9 @@ class KeygenCommand
     deviceParams =
       type: @config.type
 
-    _.extend deviceParams, lockedDownParams unless @isOpen
-    _.extend deviceParams, openParams if @isOpen
-    _.extend deviceParams, @data if @data?
+    _.defaults deviceParams, lockedDownParams unless @isOpen
+    _.defaults deviceParams, openParams if @isOpen
+    _.defaults deviceParams, @data if @data?
 
     @conn.register deviceParams, (credentials) =>
       @config.uuid = credentials.uuid
