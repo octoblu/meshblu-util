@@ -63,21 +63,23 @@ class KeygenCommand
 
   onReady: (credentials) =>
     lockedDownParams =
-      discoverWhitelist: [],
-      configureWhitelist: [],
+      discoverWhitelist: []
+      configureWhitelist: []
       receiveWhitelist: []
+      sendWhitelist: []
 
     openParams =
       discoverWhitelist: ['*']
       configureWhitelist: ['*']
       receiveWhitelist: ['*']
+      sendWhitelist: ['*']
 
     deviceParams =
       type: @config.type
 
-    _.defaults deviceParams, lockedDownParams unless @isOpen
-    _.defaults deviceParams, openParams if @isOpen
-    _.defaults deviceParams, @data if @data?
+    deviceParams = _.defaults deviceParams, lockedDownParams unless @isOpen
+    deviceParams = _.defaults deviceParams, openParams if @isOpen
+    deviceParams = _.defaults deviceParams, @data if @data?
 
     @conn.register deviceParams, (credentials) =>
       @config.uuid = credentials.uuid
