@@ -5,6 +5,7 @@ _         = require 'lodash'
 meshblu   = require 'meshblu'
 url       = require 'url'
 path      = require 'path'
+debug     = require('debug')('meshblu-util:register')
 
 DEFAULT_HOST = 'meshblu.octoblu.com'
 DEFAULT_PORT = 80
@@ -77,10 +78,11 @@ class KeygenCommand
     deviceParams =
       type: @config.type
 
+    deviceParams = _.defaults deviceParams, @data if @data?
     deviceParams = _.defaults deviceParams, lockedDownParams unless @isOpen
     deviceParams = _.defaults deviceParams, openParams if @isOpen
-    deviceParams = _.defaults deviceParams, @data if @data?
 
+    debug 'registering', deviceParams
     @conn.register deviceParams, (credentials) =>
       @config.uuid = credentials.uuid
       @config.token = credentials.token
