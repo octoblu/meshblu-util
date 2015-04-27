@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -40,6 +40,6 @@
     "colors": "^1.0.3",
     "commander": "^2.6.0",
     "lodash": "^3.0.0",
-    "meshblu": "~1"
+    "meshblu": "^1.21.0"
   }
 }
