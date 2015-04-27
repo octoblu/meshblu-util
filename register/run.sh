@@ -26,9 +26,6 @@ DEVICE_TOKEN=$(cat meshblu.json | jq -r '.token')
 # echo "DEVICE_UUID: $DEVICE_UUID"
 # echo "DEVICE_TOKEN: $DEVICE_TOKEN"
 
-cat meshblu.json | jq '.'
-meshblu-util get meshblu.json
-
 export ETCDCTL_PEERS=$ETCD_PEER
 etcdctl set $ETCD_DIR/uuid $DEVICE_UUID
 etcdctl set $ETCD_DIR/token $DEVICE_TOKEN
