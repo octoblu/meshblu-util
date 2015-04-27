@@ -8,7 +8,7 @@ path      = require 'path'
 debug     = require('debug')('meshblu-util:register')
 
 DEFAULT_HOST = 'meshblu.octoblu.com'
-DEFAULT_PORT = 80
+DEFAULT_PORT = 443
 
 class KeygenCommand
   parseOptions: =>
@@ -52,7 +52,7 @@ class KeygenCommand
 
     {hostname, port} = url.parse server
     port ?= 80
-
+    
     {server: hostname, port: port}
 
   run: =>
