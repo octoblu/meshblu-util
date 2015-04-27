@@ -1,7 +1,7 @@
 language: node_js
 node_js:
 - '0.10'
-use_sudo: false
+sudo: false
 deploy:
   provider: npm
   skip_cleanup: true
