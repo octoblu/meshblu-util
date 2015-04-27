@@ -4,7 +4,7 @@ meshblu   = require 'meshblu'
 url       = require 'url'
 
 DEFAULT_HOST = 'meshblu.octoblu.com'
-DEFAULT_PORT = 80
+DEFAULT_PORT = 443
 DEFAULT_TIMEOUT = 10000
 
 class KeygenCommand
