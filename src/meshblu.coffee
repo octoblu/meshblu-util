@@ -9,11 +9,15 @@ class Meshblu
     @connection.on 'ready', callback
     @connection.on 'notReady', console.log
 
+
   close: =>
     @connection.close()
 
   generateKeyPair: =>
     @connection.generateKeyPair()
+
+  on: =>
+    @connection.on.apply @connection, arguments
 
   onMessage: (callback=->) =>
     @connection.on 'message', callback

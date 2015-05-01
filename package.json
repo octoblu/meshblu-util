@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "1.5.9",
+  "version": "1.5.10",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -8,6 +8,7 @@
     "meshblu-util-get": "./command-get.js",
     "meshblu-util-keygen": "./command-keygen.js",
     "meshblu-util-register": "./command-register.js",
+    "meshblu-util-subscribe": "./command-subscribe.js",
     "meshblu-util-update": "./command-update.js"
   },
   "scripts": {
