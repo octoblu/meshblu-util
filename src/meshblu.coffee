@@ -9,7 +9,6 @@ class Meshblu
     @connection.on 'ready', callback
     @connection.on 'notReady', console.log
 
-
   close: =>
     @connection.close()
 
@@ -29,5 +28,9 @@ class Meshblu
   update: (data, callback) =>
     query = _.defaults {uuid: @config.uuid}, data
     @connection.update query, callback
+
+  message: (data, callback=->) =>
+    @connection.message data, (data) =>
+      callback()
 
 module.exports = Meshblu

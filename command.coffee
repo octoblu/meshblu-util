@@ -9,6 +9,7 @@ class Command
       .command 'keygen',   'generate public/private keypair, update\n' +
                '            meshblu.json with the private key, \n' +
                '            and publish the public key'
+      .command 'message',  'send a message with Meshblu'
       .command 'register', 'register a new device with Meshblu'
       .command 'subscribe','subscribe to messages to a Meshblu Device'
       .command 'update',   'update an existing device in Meshblu'
