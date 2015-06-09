@@ -43,7 +43,7 @@ class SubscribeCommand
       @meshblu.unsubscribe @config.uuid, (error) =>
         console.error colors.red JSON.stringify error.error if error.error?
 
-      @meshblu.subscribe uuid: @uuid, (error) =>
+      @meshblu.subscribe @uuid, (error) =>
         console.error colors.red JSON.stringify error.error if error.error?
 
     @meshblu.on @event, (message) =>
