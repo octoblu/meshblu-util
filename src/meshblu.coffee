@@ -21,6 +21,12 @@ class Meshblu
   onMessage: (callback=->) =>
     @connection.on 'message', callback
 
+  subscribe: (uuid, callback=->) =>
+    @connection.subscribe uuid: uuid, callback
+
+  unsubscribe: (uuid, callback=->) =>
+    @connection.unsubscribe uuid: uuid, callback
+
   whoami: (callback=->) =>
     @connection.devices {uuid: @config.uuid}, (data) =>
       callback data.error, _.first data.devices
