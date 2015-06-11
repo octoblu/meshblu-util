@@ -1,20 +1,10 @@
-commander = require 'commander'
-colors    = require 'colors'
-fs        = require 'fs'
-_         = require 'lodash'
-Meshblu   = require './src/meshblu'
-path      = require 'path'
+_           = require 'lodash'
+fs          = require 'fs'
+path        = require 'path'
+commander   = require 'commander'
+BaseCommand = require './base-command'
 
-class MessageCommand
-  parseConfig: (filename) =>
-    try
-      JSON.parse fs.readFileSync path.resolve(filename)
-    catch error
-      console.error colors.yellow error.message
-      console.error colors.red '\n  Unable to open a valid meshblu.json file'
-      commander.outputHelp()
-      process.exit 1
-
+class MessageCommand extends BaseCommand
   parseMessage: (filename) =>
     try
       JSON.parse fs.readFileSync path.resolve(filename)
@@ -23,11 +13,6 @@ class MessageCommand
       console.error colors.red '\n  Unable to open a valid message.json file'
       commander.outputHelp()
       process.exit 1
-
-  throwCommanderError: (msg) =>
-    console.error colors.red "\n  #{msg}"
-    commander.outputHelp()
-    process.exit 1
 
   parseOptions: =>
     commander
@@ -41,22 +26,21 @@ class MessageCommand
     @updateFileName = commander.file
 
     @data = @parseMessage(@updateFileName) if @updateFileName?
-    @throwCommanderError('You must specify the path to meshblu.json.') unless @filename?
 
     return if _.isPlainObject @data
     try
       @data = JSON.parse @data
     catch e
-      @throwCommanderError('You must specify valid message json.')
+      commander.outputHelp()
+      @die 'Invalid message json'
 
   run: =>
     @parseOptions()
 
-    @config = @parseConfig @filename
-    @meshblu = new Meshblu @config, @afterConnect
+    meshbluHttp = @getMeshbluHttp()
+    meshbluHttp.message @data, (error) =>
+      return @die error if error?
 
-  afterConnect: =>
-    @meshblu.message @data, =>
       process.exit 0
 
 (new MessageCommand()).run()

@@ -2,7 +2,7 @@ commander = require 'commander'
 colors    = require 'colors'
 fs        = require 'fs'
 _         = require 'lodash'
-meshblu   = require 'meshblu'
+MeshbluHttp   = require 'meshblu-http'
 url       = require 'url'
 path      = require 'path'
 debug     = require('debug')('meshblu-util:register')
@@ -25,7 +25,6 @@ class KeygenCommand
       @registerFileName = commander.file
       @data = _.defaults(@data, @parseRegister(@registerFileName)) if @registerFileName?
 
-
   parseRegister: (filename) =>
     try
       JSON.parse fs.readFileSync path.resolve(filename)
@@ -44,25 +43,14 @@ class KeygenCommand
     unless commander.server?
       return {server: DEFAULT_HOST, port: DEFAULT_PORT}
 
-    server = commander.server
+    serverConfig = commander.server.split(':')
 
-    unless _.startsWith server, 'ws'
-      protocol = if port == 443 then 'wss://' else 'ws://'
-      server = protocol + server
-
-    {hostname, port} = url.parse server
-    port ?= 80
-    
-    {server: hostname, port: port}
+    {server: serverConfig[0], port: serverConfig[1]}
 
   run: =>
     @parseOptions()
-    @config = @parseConfig()
-    @config.uuid = 'wrong' # to force a notReady
-    @conn = meshblu.createConnection @config
-    @conn.on 'notReady', @onReady
+    config = @parseConfig()
 
-  onReady: (credentials) =>
     lockedDownParams =
       discoverWhitelist: []
       configureWhitelist: []
@@ -76,18 +64,19 @@ class KeygenCommand
       sendWhitelist: ['*']
 
     deviceParams =
-      type: @config.type
+      type: config.type
 
     deviceParams = _.defaults deviceParams, @data if @data?
     deviceParams = _.defaults deviceParams, lockedDownParams unless @isOpen
     deviceParams = _.defaults deviceParams, openParams if @isOpen
 
-    debug 'registering', deviceParams
-    @conn.register deviceParams, (credentials) =>
-      @config.uuid = credentials.uuid
-      @config.token = credentials.token
-      _.extend(@config, @data) if @data?
-      console.log JSON.stringify(@config, null, 2)
+    debug 'registering', deviceParams, config
+    meshblu = new MeshbluHttp config
+    meshblu.register deviceParams, (error, credentials) =>
+      return console.error colors.red error if error?
+      {uuid, token} = credentials
+      config =_.defaults uuid: uuid, token: token, config, @data
+      console.log JSON.stringify(config, null, 2)
       process.exit 0
 
 (new KeygenCommand()).run()

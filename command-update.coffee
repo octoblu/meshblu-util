@@ -1,20 +1,11 @@
-commander = require 'commander'
-colors    = require 'colors'
-fs        = require 'fs'
-_         = require 'lodash'
-Meshblu   = require './src/meshblu'
-path      = require 'path'
+_           = require 'lodash'
+fs          = require 'fs'
+path        = require 'path'
+colors      = require 'colors'
+commander   = require 'commander'
+BaseCommand = require './base-command'
 
-class GetCommand
-  parseConfig: (filename) =>
-    try
-      JSON.parse fs.readFileSync path.resolve(filename)
-    catch error
-      console.error colors.yellow error.message
-      console.error colors.red '\n  Unable to open a valid meshblu.json file'
-      commander.outputHelp()
-      process.exit 1
-
+class UpdateCommand extends BaseCommand
   parseUpdate: (filename) =>
     try
       JSON.parse fs.readFileSync path.resolve(filename)
@@ -23,11 +14,6 @@ class GetCommand
       console.error colors.red '\n  Unable to open a valid updated-device.json file'
       commander.outputHelp()
       process.exit 1
-
-  throwCommanderError: (msg) =>
-    console.error colors.red "\n  #{msg}"
-    commander.outputHelp()
-    process.exit 1
 
   parseOptions: =>
     commander
@@ -41,28 +27,27 @@ class GetCommand
     @updateFileName = commander.file
 
     @data = @parseUpdate(@updateFileName) if @updateFileName?
-    @throwCommanderError('You must specify the path to meshblu.json.') unless @filename?
 
     return if _.isPlainObject @data
     try
       @data = JSON.parse @data
     catch e
-      @throwCommanderError('You must specify valid json to update the device.')
+      commander.outputHelp()
+      @die 'You must specify valid update json.'
 
   run: =>
     @parseOptions()
+    meshbluHttp = @getMeshbluHttp()
 
-    @config = @parseConfig @filename
-    @meshblu = new Meshblu @config, @afterConnect
-
-  afterConnect: =>
     baseDevice =
       uuid: @config.uuid
       token: @config.token
     deviceUpdate = _.extend baseDevice, @data
 
-    @meshblu.update deviceUpdate, (data) =>
+    console.log deviceUpdate
+    meshbluHttp.update deviceUpdate, (error, data) =>
+      return @die error if error?
       console.log JSON.stringify(data, null, 2)
       process.exit 0
 
-(new GetCommand()).run()
+(new UpdateCommand()).run()

@@ -1,20 +1,12 @@
-commander = require 'commander'
-colors    = require 'colors'
-fs        = require 'fs'
-_         = require 'lodash'
-Meshblu   = require './src/meshblu'
-path      = require 'path'
+_           = require 'lodash'
+fs          = require 'fs'
+path        = require 'path'
+colors      = require 'colors'
+Meshblu     = require './src/meshblu'
+commander   = require 'commander'
+BaseCommand = require './base-command'
 
-class SubscribeCommand
-  parseConfig: (filename) =>
-    try
-      JSON.parse fs.readFileSync path.resolve(filename)
-    catch error
-      console.error colors.yellow error.message
-      console.error colors.red '\n  Unable to open a valid meshblu.json file'
-      commander.outputHelp()
-      process.exit 1
-
+class SubscribeCommand extends BaseCommand
   parseOptions: =>
     commander
       .option '-u, --uuid <uuid>', 'Meshblu device to subscribe to (defaults to uuid from meshblu.json)'
@@ -25,11 +17,6 @@ class SubscribeCommand
     @filename = _.first commander.args
     @event = commander.event ? 'message'
     @uuid = commander.uuid
-
-    unless @filename?
-      console.error colors.red '\n  You must specify the path to meshblu.json.'
-      commander.outputHelp()
-      process.exit 1
 
   run: =>
     @parseOptions()
@@ -46,6 +33,7 @@ class SubscribeCommand
       @meshblu.subscribe @uuid, (error) =>
         console.error colors.red JSON.stringify error.error if error.error?
 
+    console.log colors.green "Subscribed to #{@uuid ? @config.uuid}"
     @meshblu.on @event, (message) =>
       console.log JSON.stringify(message, null, 2)
 
