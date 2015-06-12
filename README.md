@@ -33,14 +33,14 @@ Subscribe to a device that meshblu.json has permission to listen to
 meshblu-util subscribe -u 422e55fe-d461-4db8-9554-96b16d5660b5 ./meshblu.json
 ```
 
-# Get
+## Get
 
 Get your meshblu device
 ```
 meshblu-util get ./meshblu.json
 ```
 
-# Update
+## Update
 
 Update your meshblu device
 
@@ -48,7 +48,7 @@ Update your meshblu device
 meshblu-util update -d '{"online": true}' ./meshblu.json
 ```
 
-# Keygen
+## Keygen
 
 Generate a secure keypair and update your device's publicKey
 
