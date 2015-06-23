@@ -17,7 +17,8 @@ class UpdateCommand extends BaseCommand
 
   parseOptions: =>
     commander
-      .option '-d, --data <\'{"name":"Some Device"}\'>', 'Device Data [JSON]'
+      .option '-p, --put',                                'Use PUT to send the whole device state. Enables $set, $inc, etc. operators'
+      .option '-d, --data <\'{"name":"Some Device"}\'>',  'Device Data [JSON]'
       .option '-f, --file <path/to/updated-device.json>', 'Device Data [JSON FILE]'
       .usage '[options] <path/to/meshblu.json>'
       .parse process.argv
@@ -26,6 +27,7 @@ class UpdateCommand extends BaseCommand
     @data = commander.data
     @updateFileName = commander.file
 
+    @usePut = commander.put
     @data = @parseUpdate(@updateFileName) if @updateFileName?
 
     return if _.isPlainObject @data
@@ -39,7 +41,10 @@ class UpdateCommand extends BaseCommand
     @parseOptions()
     meshbluHttp = @getMeshbluHttp()
 
-    meshbluHttp.update @config.uuid, @data, (error, data) =>
+    updateMethod = 'update'
+    updateMethod = 'updateWithPut' if @usePut
+
+    meshbluHttp[updateMethod] @config.uuid, @data, (error, data) =>
       return @die error if error?
       process.exit 0
 
