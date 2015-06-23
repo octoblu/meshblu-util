@@ -23,8 +23,11 @@ class BaseCommand
     @filename = _.first commander.args
     @filename ?= "#{__dirname}/meshblu.json"
 
-  die: =>
-    console.error colors.red arguments...
+  die: (error) =>
+    if 'Error' == typeof error
+      console.error colors.red error.message
+    else
+      console.error colors.red arguments...
     process.exit 1
 
 module.exports = BaseCommand

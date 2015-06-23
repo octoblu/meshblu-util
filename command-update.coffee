@@ -39,15 +39,8 @@ class UpdateCommand extends BaseCommand
     @parseOptions()
     meshbluHttp = @getMeshbluHttp()
 
-    baseDevice =
-      uuid: @config.uuid
-      token: @config.token
-    deviceUpdate = _.extend baseDevice, @data
-
-    console.log deviceUpdate
-    meshbluHttp.update deviceUpdate, (error, data) =>
+    meshbluHttp.update @config.uuid, @data, (error, data) =>
       return @die error if error?
-      console.log JSON.stringify(data, null, 2)
       process.exit 0
 
 (new UpdateCommand()).run()

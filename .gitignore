@@ -30,3 +30,4 @@ node_modules
 meshblu.json
 device.json
 *.swp
+data.json

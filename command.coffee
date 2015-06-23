@@ -1,4 +1,4 @@
-commander = require 'commander'
+commander   = require 'commander'
 packageJSON = require './package.json'
 
 class Command
