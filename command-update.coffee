@@ -42,7 +42,7 @@ class UpdateCommand extends BaseCommand
     meshbluHttp = @getMeshbluHttp()
 
     updateMethod = 'update'
-    updateMethod = 'updateWithPut' if @usePut
+    updateMethod = 'updateDangerously' if @usePut
 
     meshbluHttp[updateMethod] @config.uuid, @data, (error, data) =>
       return @die error if error?
