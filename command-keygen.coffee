@@ -11,8 +11,9 @@ class KeygenCommand extends BaseCommand
 
     @config.privateKey = @privateKey
     fs.writeFileSync path.resolve(@filename), JSON.stringify(@config, null, 2)
-    meshbluHttp.update publicKey: @publicKey, (error, response) =>
+    meshbluHttp.update @config.uuid, {publicKey: @publicKey}, (error, response) =>
       return @die error if error?
+      console.log response if response?
       process.exit 0
 
 (new KeygenCommand()).run()
