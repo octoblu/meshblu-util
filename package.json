@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "1.9.3",
+  "version": "1.10.0",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -12,7 +12,8 @@
     "meshblu-util-message": "./command-message.js",
     "meshblu-util-update": "./command-update.js",
     "meshblu-util-online": "./command-online.js",
-    "meshblu-util-server-check": "./command-server-check.js"
+    "meshblu-util-server-check": "./command-server-check.js",
+    "meshblu-util-claim": "./command-claim.js"
   },
   "scripts": {
     "start": "node command.js",
@@ -47,6 +48,7 @@
     "lodash": "^3.0.0",
     "meshblu": "^1.22.0",
     "meshblu-config": "^2.0.0",
-    "meshblu-http": "^3.4.0"
+    "meshblu-http": "^3.4.0",
+    "open": "0.0.5"
   }
 }

@@ -15,6 +15,7 @@ class Command
       .command 'update',   'update an existing device in Meshblu'
       .command 'online',   'check if Meshblu device is online'
       .command 'server-check', 'check if Meshblu server is available'
+      .command 'claim', 'claim Meshblu device in Octoblu'
       .parse process.argv
 
     unless commander.runningCommand
