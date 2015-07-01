@@ -11,7 +11,7 @@ class ClaimDevice extends BaseCommand
   parseOptions: =>
     commander
       .usage '[options] <path/to/meshblu.json>'
-      .option '-s, --server <host[:port]>', 'Meshblu host'
+      .option '-s, --server <host[:port]>', 'Octoblu host'
       .parse process.argv
 
     @filename = _.first commander.args
