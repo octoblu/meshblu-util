@@ -13,7 +13,8 @@ class Command
       .command 'register', 'register a new device with Meshblu'
       .command 'subscribe','subscribe to messages to a Meshblu Device'
       .command 'update',   'update an existing device in Meshblu'
-      .command 'online',   'check if Meshblu is online'
+      .command 'online',   'check if Meshblu device is online'
+      .command 'server-check', 'check if Meshblu server is available'
       .parse process.argv
 
     unless commander.runningCommand
