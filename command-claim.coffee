@@ -2,6 +2,7 @@ BaseCommand   = require './base-command'
 MeshbluConfig = require 'meshblu-config'
 _             = require 'lodash'
 open          = require 'open'
+path          = require 'path'
 commander     = require 'commander'
 
 DEFAULT_HOST = 'app.octoblu.com'
@@ -12,10 +13,12 @@ class ClaimDevice extends BaseCommand
     commander
       .usage '[options] <path/to/meshblu.json>'
       .option '-s, --server <host[:port]>', 'Octoblu host'
+      .option '-g, --gateblu', 'Claim Gateblu (Mac OS X only)'
       .parse process.argv
 
     @filename = _.first commander.args
-    @filename ?= "meshblu.json"
+    @filename ?= "meshblu.json" unless commander.gateblu?
+    @filename ?= path.resolve "#{process.env.HOME}/Library/Application Support/GatebluService/meshblu.json" if commander.gateblu?
 
     @parseConfig()
 
@@ -40,7 +43,14 @@ class ClaimDevice extends BaseCommand
     meshbluHttp.generateAndStoreToken uuid, (error, body) =>
       return @die error if error?
       newToken = body.token
-      open "http://#{octobluServer}:#{octobluPort}/node-wizard/claim/#{uuid}/#{newToken}"
+      path = "/node-wizard/claim/#{uuid}/#{newToken}"
+      if _.contains ["443", 443], octobluPort
+        return open "https://#{octobluServer}#{path}"
+
+      if _.contains ["80", 80], octobluPort
+        return open "http://#{octobluServer}#{path}"
+
+      open "http://#{octobluServer}:#{octobluPort}#{path}"
 
 
 (new ClaimDevice()).run()

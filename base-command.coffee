@@ -21,7 +21,7 @@ class BaseCommand
       .parse process.argv
 
     @filename = _.first commander.args
-    @filename ?= "#{__dirname}/meshblu.json"
+    @filename ?= "meshblu.json"
 
   die: (error) =>
     if 'Error' == typeof error
