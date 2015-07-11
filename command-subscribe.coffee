@@ -24,6 +24,7 @@ class SubscribeCommand extends BaseCommand
     @parseOptions()
 
     @config = @parseConfig @filename
+    @config.options = transports: ['websocket']
     @meshblu = meshblu.createConnection @config
     @meshblu.once 'ready', @afterConnect
     @meshblu.once 'notReady', @die
