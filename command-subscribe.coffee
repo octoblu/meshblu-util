@@ -2,7 +2,7 @@ _           = require 'lodash'
 fs          = require 'fs'
 path        = require 'path'
 colors      = require 'colors'
-meshblu     = require 'meshblu'
+Meshblu     = require 'meshblu-websocket'
 commander   = require 'commander'
 BaseCommand = require './base-command'
 
@@ -25,8 +25,9 @@ class SubscribeCommand extends BaseCommand
 
     @config = @parseConfig @filename
     @config.options = transports: ['websocket']
-    @meshblu = meshblu.createConnection @config
-    @meshblu.once 'ready', @afterConnect
+
+    @meshblu = new Meshblu @config
+    @meshblu.connect @afterConnect
     @meshblu.once 'notReady', @die
     @meshblu.once 'disconnect', @die
 
@@ -36,19 +37,10 @@ class SubscribeCommand extends BaseCommand
         console.log JSON.stringify(message, null, 2)
 
     unless @uuid?
-      @meshblu.subscribe uuid: @config.uuid, types: @types, =>
-        console.log colors.green "Subscribed to #{@config.uuid}"
-      return
+      return @meshblu.subscribe uuid: @config.uuid, types: @types
 
     console.log colors.green 'subscribing to', @uuid
-    @meshblu.unsubscribe @config.uuid, (error) =>
-      console.error colors.red JSON.stringify error.error if error.error?
-
-    @meshblu.subscribe uuid: @uuid, types: @types, (error) =>
-      console.log colors.green "Subscribed to #{@uuid}"
-      console.error colors.red JSON.stringify error.error if error.error?
-
-
+    @meshblu.subscribe uuid: @uuid, types: @types
 
   die: (error) =>
     console.error error
