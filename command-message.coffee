@@ -1,6 +1,7 @@
 _           = require 'lodash'
 fs          = require 'fs'
 path        = require 'path'
+colors      = require 'colors'
 commander   = require 'commander'
 BaseCommand = require './base-command'
 

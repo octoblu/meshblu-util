@@ -24,14 +24,14 @@ class SubscribeCommand extends BaseCommand
     @parseOptions()
 
     @config = @parseConfig @filename
-    @config.options = transports: ['websocket']
 
     @meshblu = new Meshblu @config
     @meshblu.connect @afterConnect
-    @meshblu.once 'notReady', @die
     @meshblu.once 'disconnect', @die
 
-  afterConnect: =>
+  afterConnect: (error) =>
+    return @die error if error?
+
     _.each @events, (event) =>
       @meshblu.on event, (message) =>
         console.log JSON.stringify(message, null, 2)
