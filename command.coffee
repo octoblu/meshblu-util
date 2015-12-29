@@ -14,6 +14,7 @@ class Command
       .command 'message',  'send a message with Meshblu'
       .command 'online',   'check if Meshblu device is online'
       .command 'register', 'register a new device with Meshblu'
+      .command 'revoke-token', 'revoke token from device'
       .command 'server-check', 'check if Meshblu server is available'
       .command 'subscribe','subscribe to messages to a Meshblu Device'
       .command 'update',   'update an existing device in Meshblu'
