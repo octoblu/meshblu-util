@@ -18,6 +18,7 @@ class Command
       .command 'server-check', 'check if Meshblu server is available'
       .command 'subscribe','subscribe to messages to a Meshblu Device'
       .command 'update',   'update an existing device in Meshblu'
+      .command 'gateblu-shadow-sync',   "synchronize a gateblu and it's shadows"
       .parse process.argv
 
     unless commander.runningCommand
