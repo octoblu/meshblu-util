@@ -21,6 +21,7 @@ class KeygenCommand
       .parse process.argv
 
       @data = JSON.parse(commander.data) if commander.data?
+      @data ?= {}
       @isOpen = commander.open?
       @registerFileName = commander.file
       @data = _.defaults(@data, @parseRegister(@registerFileName)) if @registerFileName?
