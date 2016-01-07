@@ -23,7 +23,7 @@ class SubscribeCommand extends BaseCommand
   run: =>
     @parseOptions()
 
-    @config = @parseConfig @filename
+    @parseConfig @filename
 
     @meshblu = new Meshblu @config
     @meshblu.connect @afterConnect
