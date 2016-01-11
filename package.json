@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "1.18.2",
+  "version": "1.19.0",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -50,7 +50,7 @@
     "gateblu-shadower": "^1.0.1",
     "lodash": "^3.0.0",
     "meshblu-config": "^3.1.1",
-    "meshblu-http": "^3.8.0",
+    "meshblu-http": "^4.0.0",
     "meshblu-websocket": "^2.3.3",
     "open": "0.0.5"
   }
