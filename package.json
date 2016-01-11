@@ -1,10 +1,11 @@
 {
   "name": "meshblu-util",
-  "version": "1.19.0",
+  "version": "1.19.1",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
     "meshblu-util": "./command.js",
+    "meshblu-util-create-subscription": "./command-create-subscription.js",
     "meshblu-util-generate-token": "./command-generate-token.js",
     "meshblu-util-revoke-token": "./command-revoke-token.js",
     "meshblu-util-get": "./command-get.js",
