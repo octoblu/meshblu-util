@@ -6,7 +6,8 @@ class Command
     commander
       .version packageJSON.version
       .command 'claim', 'claim Meshblu device in Octoblu'
-      .command 'create-subscription', 'Create a device subscription'
+      .command 'subscription-create', 'Create a device subscription'
+      .command 'subscription-list', 'List a device\'s subscription'
       .command 'create-hook', 'Create a message hook'
       .command 'generate-token', 'generate and store token'
       .command 'get',      'retrieve a device using a meshblu.json'

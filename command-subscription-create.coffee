@@ -6,7 +6,7 @@ Meshblu     = require 'meshblu-http'
 commander   = require 'commander'
 BaseCommand = require './base-command'
 
-class CreateSubscriptionCommand extends BaseCommand
+class SubscriptionCreateCommand extends BaseCommand
   parseOptions: =>
     commander
       .option '-e, --emitter <uuid>', 'Emitter device'
@@ -21,6 +21,10 @@ class CreateSubscriptionCommand extends BaseCommand
 
     @type = commander.type
 
+    unless @type? && @emitterUuid
+      commander.outputHelp()
+      @die 'You must specify an emitter and a type.'
+
   run: =>
     @parseOptions()
 
@@ -30,10 +34,4 @@ class CreateSubscriptionCommand extends BaseCommand
       return @die error if error?
       process.exit 0
 
-  die: (error) =>
-    console.error error
-    console.error error?.message
-    console.error error?.stack
-    process.exit 1
-
-(new CreateSubscriptionCommand()).run()
+(new SubscriptionCreateCommand()).run()
