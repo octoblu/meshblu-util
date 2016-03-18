@@ -39,7 +39,7 @@ class SubscribeCommand extends BaseCommand
 
     uuid = @uuid ? @config.uuid
     console.error colors.green 'subscribing to', uuid
-    @meshblu.unsubscribe {uuid}
+    @meshblu.unsubscribe {uuid, types: ['received', 'config', 'data']}
     @meshblu.subscribe {uuid, @types}
 
   die: (error) =>
