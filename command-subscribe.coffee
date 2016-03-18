@@ -34,16 +34,13 @@ class SubscribeCommand extends BaseCommand
 
     _.each @events, (eventName) =>
       @meshblu.on eventName, (event) =>
-        console.log JSON.stringify({eventName, event}, null, 2)
+        console.error colors.yellow '# Event:', eventName
+        console.log JSON.stringify(event, null, 2)
 
-    unless @uuid?
-      @meshblu.unsubscribe uuid: @config.uuid
-      @meshblu.subscribe uuid: @config.uuid, types: @types
-      return
-
-    console.log colors.green 'subscribing to', @uuid
-    @meshblu.unsubscribe uuid: @uuid
-    @meshblu.subscribe uuid: @uuid, types: @types
+    uuid = @uuid ? @config.uuid
+    console.error colors.green 'subscribing to', uuid
+    @meshblu.unsubscribe {uuid}
+    @meshblu.subscribe {uuid, @types}
 
   die: (error) =>
     console.error error
