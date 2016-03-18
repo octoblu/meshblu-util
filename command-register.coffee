@@ -17,12 +17,14 @@ class KeygenCommand
       .option '-t, --type <device:type>', 'Device type'
       .option '-d, --data <\'{"name":"Some Device"}\'>', 'Device Data [JSON]'
       .option '-o, --open', "Make the device open to everyone"
+      .option '-l, --lock', "Make the device locked down"
       .option '-f, --file <path/to/updated-device.json>', 'Device Data [JSON FILE]'
       .parse process.argv
 
       @data = JSON.parse(commander.data) if commander.data?
       @data ?= {}
       @isOpen = commander.open?
+      @isLock = commander.lock?
       @registerFileName = commander.file
       @data = _.defaults(@data, @parseRegister(@registerFileName)) if @registerFileName?
 
@@ -68,7 +70,7 @@ class KeygenCommand
       type: config.type
 
     deviceParams = _.defaults deviceParams, @data if @data?
-    deviceParams = _.defaults deviceParams, lockedDownParams unless @isOpen
+    deviceParams = _.defaults deviceParams, lockedDownParams if @isLock
     deviceParams = _.defaults deviceParams, openParams if @isOpen
 
     debug 'registering', deviceParams, config
