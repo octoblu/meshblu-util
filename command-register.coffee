@@ -58,6 +58,7 @@ class KeygenCommand
 
     openParams =
       meshblu:
+        version: '2.0.0'
         whitelists: {
           broadcast:
             as:       {'*': {}}
