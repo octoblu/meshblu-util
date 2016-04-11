@@ -54,6 +54,7 @@ class KeygenCommand
 
     lockedDownParams =
       meshblu:
+        version: '2.0.0'
         whitelists: {}
 
     openParams =
