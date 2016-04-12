@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
