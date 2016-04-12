@@ -11,6 +11,7 @@
     "meshblu-util-generate-token": "./command-generate-token.js",
     "meshblu-util-revoke-token": "./command-revoke-token.js",
     "meshblu-util-get": "./command-get.js",
+    "meshblu-util-firehose": "./command-firehose.js",
     "meshblu-util-keygen": "./command-keygen.js",
     "meshblu-util-register": "./command-register.js",
     "meshblu-util-subscribe": "./command-subscribe.js",
