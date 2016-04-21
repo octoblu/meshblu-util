@@ -16,8 +16,9 @@ class KeygenCommand
       .option '-s, --server <host[:port]>', 'Meshblu host'
       .option '-t, --type <device:type>', 'Device type'
       .option '-d, --data <\'{"name":"Some Device"}\'>', 'Device Data [JSON]'
-      .option '-o, --open', "Make the device open to everyone"
+      .option '-o, --open', 'Make the device open to everyone'
       .option '-f, --file <path/to/updated-device.json>', 'Device Data [JSON FILE]'
+      .option '-L, --legacy', 'Create a device with legacy whitelists'
       .parse process.argv
 
       @data = JSON.parse(commander.data) if commander.data?
@@ -25,6 +26,7 @@ class KeygenCommand
       @isOpen = commander.open?
       @registerFileName = commander.file
       @data = _.defaults(@data, @parseRegister(@registerFileName)) if @registerFileName?
+      @isLegacy = commander.legacy
 
   parseRegister: (filename) =>
     try
@@ -52,33 +54,7 @@ class KeygenCommand
     @parseOptions()
     config = @parseConfig()
 
-    lockedDownParams =
-      meshblu:
-        version: '2.0.0'
-        whitelists: {}
-
-    openParams =
-      meshblu:
-        version: '2.0.0'
-        whitelists: {
-          broadcast:
-            as:       {'*': {}}
-            received: {'*': {}}
-            sent:     {'*': {}}
-          discover:
-            as:       {'*': {}}
-            view:     {'*': {}}
-          configure:
-            as:       {'*': {}}
-            received: {'*': {}}
-            sent:     {'*': {}}
-            update:   {'*': {}}
-          message:
-            as:       {'*': {}}
-            from:     {'*': {}}
-            received: {'*': {}}
-            sent:     {'*': {}}
-        }
+    {lockedDownParams, openParams} = @getParams()
 
     deviceParams =
       type: config.type
@@ -98,5 +74,51 @@ class KeygenCommand
       config =_.defaults uuid: uuid, token: token, config, @data
       console.log JSON.stringify(config, null, 2)
       process.exit 0
+
+  getParams: =>
+    if @isLegacy
+      lockedDownParams =
+        configureWhitelist: []
+        discoverWhitelist:  []
+        receiveWhitelist:   []
+        sendWhitelist:      []
+
+      openParams =
+        configureWhitelist: ['*']
+        discoverWhitelist:  ['*']
+        receiveWhitelist:   ['*']
+        sendWhitelist:      ['*']
+
+      return {lockedDownParams, openParams}
+
+    lockedDownParams =
+      meshblu:
+        version: '2.0.0'
+        whitelists: {}
+
+    openParams =
+      meshblu:
+        version: '2.0.0'
+        whitelists: {
+          broadcast:
+            as:       [uuid: '*']
+            received: [uuid: '*']
+            sent:     [uuid: '*']
+          discover:
+            as:       [uuid: '*']
+            view:     [uuid: '*']
+          configure:
+            as:       [uuid: '*']
+            received: [uuid: '*']
+            sent:     [uuid: '*']
+            update:   [uuid: '*']
+          message:
+            as:       [uuid: '*']
+            from:     [uuid: '*']
+            received: [uuid: '*']
+            sent:     [uuid: '*']
+        }
+
+    return {lockedDownParams, openParams}
 
 (new KeygenCommand()).run()
