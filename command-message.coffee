@@ -18,6 +18,7 @@ class MessageCommand extends BaseCommand
   parseOptions: =>
     commander
       .option '-d, --data <\'{"topic":"do-something"}\'>', 'Message Data [JSON]'
+      .option '-a, --as <uuid>', 'the uuid to send the message as (defaults to meshblu.json)'
       .option '-f, --file <path/to/message.json>', 'Message Data [JSON FILE]'
       .usage '[options] <path/to/meshblu.json>'
       .parse process.argv
@@ -25,6 +26,7 @@ class MessageCommand extends BaseCommand
     @filename = _.first commander.args
     @data = commander.data
     @updateFileName = commander.file
+    @as = commander.as
 
     @data = @parseMessage(@updateFileName) if @updateFileName?
 
@@ -37,9 +39,10 @@ class MessageCommand extends BaseCommand
 
   run: =>
     @parseOptions()
-
+    options = {}
+    options.as = @as if @as?
     meshbluHttp = @getMeshbluHttp()
-    meshbluHttp.message @data, (error) =>
+    meshbluHttp.message @data, options, (error) =>
       return @die error if error?
 
       process.exit 0
