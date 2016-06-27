@@ -7,13 +7,14 @@ url       = require 'url'
 path      = require 'path'
 debug     = require('debug')('meshblu-util:register')
 
+DEFAULT_PROTOCOL = 'https'
 DEFAULT_HOST = 'meshblu.octoblu.com'
 DEFAULT_PORT = 443
 
 class KeygenCommand
   parseOptions: =>
     commander
-      .option '-s, --server <host[:port]>', 'Meshblu host'
+      .option '-U, --url <protocol://host[:port]>', 'Url to the meshblu service'
       .option '-t, --type <device:type>', 'Device type'
       .option '-d, --data <\'{"name":"Some Device"}\'>', 'Device Data [JSON]'
       .option '-o, --open', 'Make the device open to everyone'
@@ -38,17 +39,16 @@ class KeygenCommand
       process.exit 1
 
   parseConfig: =>
-    {server, port} = @parseServer()
+    {protocol, hostname, port} = @parseServer()
+    {type} = commander
 
-    {server: server, port: port, type: commander.type}
+    return {protocol, hostname, port, type}
 
   parseServer: =>
-    unless commander.server?
-      return {server: DEFAULT_HOST, port: DEFAULT_PORT}
+    return {protocol: DEFAULT_PROTOCOL, hostname: DEFAULT_HOST, port: DEFAULT_PORT} unless commander.url?
 
-    serverConfig = commander.server.split(':')
-
-    {server: serverConfig[0], port: serverConfig[1]}
+    {protocol, hostname, port} = url.parse commander.url
+    return {protocol, hostname, port}
 
   run: =>
     @parseOptions()

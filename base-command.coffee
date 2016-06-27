@@ -18,7 +18,8 @@ class BaseCommand
     return if @meshbluConfig?
     @meshbluConfig = new MeshbluConfig filename: @filename
     @config = @meshbluConfig.toJSON()
-    @die new Error "Invalid server and port. \nPlease check your meshblu configuration." unless @config.server? and @config.port?
+    return if @config.resolveSrv
+    @die new Error "Invalid hostname. \nPlease check your meshblu configuration." unless @config.hostname? 
 
   parseOptions: =>
     commander
