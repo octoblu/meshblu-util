@@ -22,7 +22,7 @@ class ClaimDevice extends BaseCommand
     @parseConfig()
 
   parseConfig: =>
-    @getMeshbluConfig()
+    super
     _.extend @config, @parseOctobluServer()
 
   parseOctobluServer: =>
