@@ -1,10 +1,10 @@
-_           = require 'lodash'
-fs          = require 'fs'
-path        = require 'path'
-colors      = require 'colors'
-Meshblu     = require 'meshblu-firehose-socket.io'
-commander   = require 'commander'
-BaseCommand = require './base-command'
+_               = require 'lodash'
+fs              = require 'fs'
+path            = require 'path'
+colors          = require 'colors'
+MeshbluFirehose = require 'meshblu-firehose-socket.io'
+commander       = require 'commander'
+BaseCommand     = require './base-command'
 
 class FirehoseCommand extends BaseCommand
   parseOptions: =>
@@ -17,8 +17,8 @@ class FirehoseCommand extends BaseCommand
   run: =>
     @parseOptions()
 
-    @parseConfig @filename
-    @meshblu = new Meshblu meshbluConfig: @config
+    @parseConfig()
+    @meshblu = new MeshbluFirehose meshbluConfig: @config
     @meshblu.connect uuid: @config.uuid, @afterConnect
     @meshblu.once 'disconnect', @die
 

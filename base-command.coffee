@@ -16,10 +16,11 @@ class BaseCommand
 
   parseConfig: =>
     return if @meshbluConfig?
-    @meshbluConfig = new MeshbluConfig filename: @filename
+    @meshbluConfig = new MeshbluConfig {}, {@filename}
+
     @config = @meshbluConfig.toJSON()
     return if @config.resolveSrv
-    @die new Error "Invalid hostname. \nPlease check your meshblu configuration." unless @config.hostname? 
+    @die new Error "Invalid hostname. \nPlease check your meshblu configuration." unless @config.hostname?
 
   parseOptions: =>
     commander

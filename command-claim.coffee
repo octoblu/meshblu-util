@@ -1,5 +1,4 @@
 BaseCommand   = require './base-command'
-MeshbluConfig = require 'meshblu-config'
 _             = require 'lodash'
 open          = require 'open'
 path          = require 'path'
@@ -23,8 +22,7 @@ class ClaimDevice extends BaseCommand
     @parseConfig()
 
   parseConfig: =>
-    @meshbluConfig = new MeshbluConfig filename: @filename
-    @config = @meshbluConfig.toJSON()
+    @getMeshbluConfig()
     _.extend @config, @parseOctobluServer()
 
   parseOctobluServer: =>
