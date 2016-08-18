@@ -6,6 +6,7 @@
   "bin": {
     "meshblu-util": "./command.js",
     "meshblu-util-subscription-create": "./command-subscription-create.js",
+    "meshblu-util-subscription-delete": "./command-subscription-delete.js",
     "meshblu-util-subscription-list": "./command-subscription-list.js",
     "meshblu-util-create-hook": "./command-create-hook.js",
     "meshblu-util-generate-token": "./command-generate-token.js",

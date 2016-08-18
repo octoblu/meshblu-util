@@ -7,6 +7,7 @@ class Command
       .version packageJSON.version
       .command 'claim', 'claim Meshblu device in Octoblu'
       .command 'subscription-create', 'Create a device subscription'
+      .command 'subscription-delete', 'Delete a device subscription'
       .command 'subscription-list', 'List a device\'s subscription'
       .command 'create-hook', 'Create a message hook'
       .command 'firehose', 'Connect to the firehose!'
