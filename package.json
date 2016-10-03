@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -58,7 +58,7 @@
     "meshblu-config": "^5.1.2",
     "meshblu-firehose-socket.io": "^1.4.0",
     "meshblu-http": "^7.0.0",
-    "meshblu-websocket": "^2.3.3",
+    "meshblu-websocket": "^4.0.0",
     "meshblu-xmpp": "^1.4.4",
     "open": "0.0.5"
   }
