@@ -1,6 +1,4 @@
 _               = require 'lodash'
-fs              = require 'fs'
-path            = require 'path'
 colors          = require 'colors'
 MeshbluFirehose = require 'meshblu-firehose-socket.io'
 commander       = require 'commander'
@@ -19,10 +17,12 @@ class FirehoseCommand extends BaseCommand
 
     @parseConfig()
     @meshblu = new MeshbluFirehose meshbluConfig: @config
-    @meshblu.connect uuid: @config.uuid, @afterConnect
+    @meshblu.connect @afterConnect
     @meshblu.once 'disconnect', @die
 
   afterConnect: (error) =>
+    return @die error if error?
+
     console.log colors.red('FIREHOSE'), 'connected'
     @meshblu.on 'message', (message) =>
       console.log JSON.stringify message, null, 2

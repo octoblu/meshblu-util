@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -56,7 +56,7 @@
     "gateblu-shadower": "^1.0.1",
     "lodash": "^3.0.0",
     "meshblu-config": "^5.1.2",
-    "meshblu-firehose-socket.io": "^1.4.0",
+    "meshblu-firehose-socket.io": "^2.0.0",
     "meshblu-http": "^7.0.0",
     "meshblu-websocket": "^4.0.0",
     "meshblu-xmpp": "^1.4.4",
