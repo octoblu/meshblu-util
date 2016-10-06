@@ -21,9 +21,9 @@ class SubscriptionCreateCommand extends BaseCommand
 
     @type = commander.type
 
-    unless @type? && @emitterUuid
+    unless @type?
       commander.outputHelp()
-      @die 'You must specify an emitter and a type.'
+      @die 'You must specify a type.'
 
   run: =>
     @parseOptions()
