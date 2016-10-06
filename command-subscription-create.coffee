@@ -9,7 +9,7 @@ BaseCommand = require './base-command'
 class SubscriptionCreateCommand extends BaseCommand
   parseOptions: =>
     commander
-      .option '-e, --emitter <uuid>', 'Emitter device'
+      .option '-e, --emitter <uuid>', 'Emitter device (defaults to uuid from meshblu.json)'
       .option '-s, --subscriber <uuid>', 'Subscriber device (defaults to uuid from meshblu.json)'
       .option '-t, --type <type>', 'Subscription type'
       .usage '[options] <path/to/meshblu.json>'
@@ -29,6 +29,7 @@ class SubscriptionCreateCommand extends BaseCommand
     @parseOptions()
 
     meshbluHttp = @getMeshbluHttp()
+    @emitterUuid ?= @config.uuid
     @subscriberUuid ?= @config.uuid
     meshbluHttp.createSubscription {@subscriberUuid, @emitterUuid, @type}, (error) =>
       return @die error if error?
