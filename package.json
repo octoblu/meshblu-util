@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "5.3.0",
+  "version": "5.4.0",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -19,6 +19,7 @@
     "meshblu-util-message": "./command-message.js",
     "meshblu-util-search": "./command-search.js",
     "meshblu-util-update": "./command-update.js",
+    "meshblu-util-unregister": "./command-unregister.js",
     "meshblu-util-online": "./command-online.js",
     "meshblu-util-server-check": "./command-server-check.js",
     "meshblu-util-claim": "./command-claim.js"

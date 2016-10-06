@@ -34,7 +34,8 @@ class BaseCommand
     if 'Error' == typeof error
       console.error colors.red error.message
     else
-      console.error colors.red arguments...
+      _.each arguments, (arg) =>
+        console.error colors.red JSON.stringify arg
     process.exit 1
 
 module.exports = BaseCommand

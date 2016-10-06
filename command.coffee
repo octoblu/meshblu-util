@@ -24,6 +24,7 @@ class Command
       .command 'search', 'search for devices'
       .command 'subscribe','subscribe to messages to a Meshblu Device'
       .command 'update',   'update an existing device in Meshblu'
+      .command 'unregister', 'delete a device in Meshblu'
       .command 'gateblu-shadow-sync',   "synchronize a gateblu and it's shadows"
       .parse process.argv
 
