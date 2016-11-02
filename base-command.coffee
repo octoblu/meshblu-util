@@ -16,7 +16,7 @@ class BaseCommand
 
   parseConfig: =>
     return if @meshbluConfig?
-    @meshbluConfig = new MeshbluConfig {}, {@filename}
+    @meshbluConfig = new MeshbluConfig {@filename}
 
     @config = @meshbluConfig.toJSON()
     return if @config.resolveSrv
