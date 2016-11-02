@@ -10,10 +10,10 @@ class SubscriptionCreateCommand
 
   parseOptions: =>
     commander
+      .usage '[options] [path/to/meshblu.json]'
       .option '-e, --emitter <uuid>', 'Emitter device (defaults to uuid from meshblu.json)'
       .option '-s, --subscriber <uuid>', 'Subscriber device (defaults to uuid from meshblu.json)'
       .option '-t, --type <type>', 'Subscription type'
-      .usage '[options] [path/to/meshblu.json]'
       .parse process.argv
 
     filename = _.first commander.args

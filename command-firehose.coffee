@@ -2,30 +2,38 @@ _               = require 'lodash'
 colors          = require 'colors'
 MeshbluFirehose = require 'meshblu-firehose-socket.io'
 commander       = require 'commander'
-BaseCommand     = require './base-command'
+Util            = require './src/util'
 
-class FirehoseCommand extends BaseCommand
+class FirehoseCommand extends Util
+  constructor: ->
+    {filename, @messagePath} = @parseOptions()
+    meshbluConfig = Util.getMeshbluConfig {filename}
+    @firehose = new MeshbluFirehose {meshbluConfig}
+
   parseOptions: =>
     commander
-      .usage '[options] <path/to/meshblu.json>'
+      .usage '[options] [path/to/meshblu.json]'
+      .option '-p, --path <message-path>', 'path within each message to print. (defaults to the whole message)'
       .parse process.argv
 
-    @filename = _.first commander.args
+    return {
+      filename: _.first commander.args
+      messagePath: commander.path
+    }
 
   run: =>
-    @parseOptions()
-
-    @parseConfig()
-    @meshblu = new MeshbluFirehose meshbluConfig: @config
-    @meshblu.connect @afterConnect
-    @meshblu.once 'disconnect', @die
+    @firehose.connect @afterConnect
+    @firehose.once 'disconnect', @die
+    @firehose.on 'message', @onMessage
 
   afterConnect: (error) =>
     return @die error if error?
-
     console.log colors.red('FIREHOSE'), 'connected'
-    @meshblu.on 'message', (message) =>
-      console.log JSON.stringify message, null, 2
+
+  onMessage: (message) =>
+    output = message
+    output = _.get message, @messagePath unless _.isEmpty @messagePath
+    console.log JSON.stringify output, null, 2
 
   die: (error) =>
     console.error error
