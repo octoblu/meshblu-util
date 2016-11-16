@@ -6,19 +6,20 @@ Util            = require './src/util'
 
 class FirehoseCommand extends Util
   constructor: ->
-    {filename, @messagePath} = @parseOptions()
+    {filename, @messagePaths} = @parseOptions()
     meshbluConfig = Util.getMeshbluConfig {filename}
     @firehose = new MeshbluFirehose {meshbluConfig}
 
   parseOptions: =>
     commander
       .usage '[options] [path/to/meshblu.json]'
-      .option '-p, --path <message-path>', 'path within each message to print. (defaults to the whole message)'
+      .option '-p, --path <message-path,message-path>', '''path within each message to print.
+                                                           (defaults to the whole message)'''
       .parse process.argv
 
     return {
       filename: _.first commander.args
-      messagePath: commander.path
+      messagePaths: _.split commander.path, ','
     }
 
   run: =>
@@ -31,9 +32,10 @@ class FirehoseCommand extends Util
     console.log colors.red('FIREHOSE'), 'connected'
 
   onMessage: (message) =>
-    output = message
-    output = _.get message, @messagePath unless _.isEmpty @messagePath
-    console.log JSON.stringify output, null, 2
+    console.log colors.yellow '========================='
+    return console.log JSON.stringify(message, null, 2) if _.isEmpty @messagePaths
+    _.each @messagePaths, (messagePath) =>
+      console.log JSON.stringify(_.get(message, messagePath), null, 2)
 
   die: (error) =>
     console.error error

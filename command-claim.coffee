@@ -42,10 +42,10 @@ class ClaimDevice extends BaseCommand
       return @die error if error?
       newToken = body.token
       path = "/node-wizard/claim/#{uuid}/#{newToken}"
-      if _.contains ["443", 443], octobluPort
+      if _.includes ["443", 443], octobluPort
         return open "https://#{octobluServer}#{path}"
 
-      if _.contains ["80", 80], octobluPort
+      if _.includes ["80", 80], octobluPort
         return open "http://#{octobluServer}#{path}"
 
       open "http://#{octobluServer}:#{octobluPort}#{path}"
