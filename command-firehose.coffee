@@ -33,7 +33,7 @@ class FirehoseCommand extends Util
 
   onMessage: (message) =>
     console.log colors.yellow '========================='
-    return console.log JSON.stringify(message, null, 2) if _.isEmpty @messagePaths
+    return console.log JSON.stringify(message, null, 2) if _.isEmpty _.compact @messagePaths
     _.each @messagePaths, (messagePath) =>
       console.log JSON.stringify(_.get(message, messagePath), null, 2)
 
