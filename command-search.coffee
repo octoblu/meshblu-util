@@ -4,11 +4,13 @@ commander = require 'commander'
 BaseCommand   = require './base-command'
 
 
-class GetCommand extends BaseCommand
+class SearchCommand extends BaseCommand
   run: =>
     @parseOptions()
     meshbluHttp = @getMeshbluHttp()
-    meshbluHttp.search @query, {}, (error, data) =>
+    options = {}
+    options.as = @as if @as?
+    meshbluHttp.search @query, options, (error, data) =>
       return @die error if error?
       console.log JSON.stringify(data, null, 2)
       process.exit 0
@@ -16,10 +18,13 @@ class GetCommand extends BaseCommand
   parseOptions: =>
     commander
       .option '-q, --query <query>', 'Meshblu device to get (defaults to uuid from meshblu.json)'
+      .option '-a, --as <uuid>', 'the uuid to send the message as (defaults to meshblu.json)'
       .usage '[options] <path/to/meshblu.json>'
       .parse process.argv
 
     @filename = _.first commander.args
+    @as = commander.as
+
     {query} = commander
 
     unless query?
@@ -32,4 +37,4 @@ class GetCommand extends BaseCommand
       commander.outputHelp()
       @die 'Invalid message json'
 
-(new GetCommand()).run()
+(new SearchCommand()).run()
