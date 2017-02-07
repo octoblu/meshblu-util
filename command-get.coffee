@@ -9,7 +9,7 @@ class GetCommand extends BaseCommand
     @parseOptions()
     meshbluHttp = @getMeshbluHttp()
     @uuid ?= @getMeshbluConfig().uuid
-    meshbluHttp.device @uuid, (error, data) =>
+    meshbluHttp.device @uuid, {@as}, (error, data) =>
       return @die error if error?
 
       console.log JSON.stringify(data, null, 2)
@@ -17,13 +17,15 @@ class GetCommand extends BaseCommand
 
   parseOptions: =>
     commander
+      .option '-a, --as <uuid>', 'the uuid to send the message as (defaults to meshblu.json)'
       .option '-u, --uuid <uuid>', 'Meshblu device to get (defaults to uuid from meshblu.json)'
       .usage '[options] <path/to/meshblu.json>'
       .parse process.argv
 
     @filename = _.first commander.args
-    @uuid = commander.uuid
+    @uuid   = commander.uuid
+    @as     = commander.as
     @events = (commander.events ? 'message,config').split ','
-    @types = (commander.types ? 'broadcast,received,sent').split ','
+    @types  = (commander.types ? 'broadcast,received,sent').split ','
 
 (new GetCommand()).run()
