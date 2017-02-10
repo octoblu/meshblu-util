@@ -39,14 +39,13 @@ class KeygenCommand
       process.exit 1
 
   parseConfig: =>
+    return {resolveSrv: true} unless commander.url?
     {protocol, hostname, port} = @parseServer()
     {type} = commander
 
     return {protocol, hostname, port, type}
 
   parseServer: =>
-    return {protocol: DEFAULT_PROTOCOL, hostname: DEFAULT_HOST, port: DEFAULT_PORT} unless commander.url?
-
     {protocol, hostname, port} = url.parse commander.url
     return {protocol, hostname, port}
 
