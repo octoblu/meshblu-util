@@ -21,7 +21,7 @@ class GenerateToken extends BaseCommand
     @parseOptions()
     meshbluHttp = @getMeshbluHttp()
 
-    meshbluHttp.generateAndStoreTokenWithOptions @uuid, {@tag}, (error, {uuid, token}) =>
+    meshbluHttp.generateAndStoreTokenWithOptions @uuid, {@tag}, (error, {uuid, token}={}) =>
       return @die error if error?
       newMeshbluConfig = _.extend {}, @getMeshbluConfig(), {uuid, token}
       console.log JSON.stringify(newMeshbluConfig, null, 2)
