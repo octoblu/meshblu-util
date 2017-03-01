@@ -31,7 +31,7 @@ class BaseCommand
     @filename ?= "meshblu.json"
 
   die: (error) =>
-    if 'Error' == typeof error
+    if _.isError error
       console.error colors.red error.message
     else
       _.each arguments, (arg) =>
