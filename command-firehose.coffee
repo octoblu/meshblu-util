@@ -3,6 +3,8 @@ colors          = require 'colors'
 MeshbluFirehose = require 'meshblu-firehose-socket.io'
 commander       = require 'commander'
 Util            = require './src/util'
+moment          = require 'moment'
+prettyBytes     = require 'pretty-bytes'
 
 class FirehoseCommand extends Util
   constructor: ->
@@ -19,23 +21,35 @@ class FirehoseCommand extends Util
 
     return {
       filename: _.first commander.args
-      messagePaths: _.split commander.path, ','
+      messagePaths: _.compact _.split commander.path, ','
     }
 
   run: =>
-    @firehose.connect @afterConnect
+    @firehose.on 'connect', @afterConnect
     @firehose.once 'disconnect', @die
     @firehose.on 'message', @onMessage
+    @firehose.connect()
 
   afterConnect: (error) =>
     return @die error if error?
     console.log colors.red('FIREHOSE'), 'connected'
 
   onMessage: (message) =>
-    console.log colors.yellow '========================='
-    return console.log JSON.stringify(message, null, 2) if _.isEmpty _.compact @messagePaths
-    _.each @messagePaths, (messagePath) =>
-      console.log JSON.stringify(_.get(message, messagePath), null, 2)
+    timestamp = colors.gray moment().format()
+    route = _.first(_.get message, 'metadata.route', []) ? {}
+    {from, to, type} = route
+    from = colors.blue from
+    to = colors.blue to
+    type = colors.red type
+    size = colors.green prettyBytes JSON.stringify(message).length
+    console.log colors.yellow '============================================================================='
+    if _.isEmpty @messagePaths
+      console.log JSON.stringify(message, null, 2)
+    else
+      _.each @messagePaths, (messagePath) =>
+        console.log JSON.stringify(_.get(message, messagePath), null, 2)
+
+    console.log "#{timestamp} <#{type}> @#{from}=>#{to} (#{size})"
 
   die: (error) =>
     console.error error
