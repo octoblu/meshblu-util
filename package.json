@@ -1,6 +1,6 @@
 {
   "name": "meshblu-util",
-  "version": "6.1.0",
+  "version": "7.0.0",
   "description": "Utils for managing Meshblu devices",
   "main": "index.js",
   "bin": {
@@ -44,22 +44,22 @@
   },
   "homepage": "https://github.com/octoblu/meshblu-util",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "sinon": "^2.1.0",
-    "sinon-chai": "^2.9.0"
+    "chai": "^4.1.0",
+    "mocha": "^3.5.0",
+    "sinon": "^3.0.0",
+    "sinon-chai": "^2.12.0"
   },
   "dependencies": {
-    "coffee-script": "^1.12.4",
+    "coffee-script": "^1.12.7",
     "colors": "^1.0.3",
-    "commander": "^2.6.0",
-    "debug": "^2.6.3",
+    "commander": "^2.11.0",
+    "debug": "^2.6.8",
     "gateblu-shadower": "^1.0.1",
     "lodash": "^4.17.4",
-    "meshblu-config": "^7.0.0",
-    "meshblu-firehose-socket.io": "^4.0.0",
-    "meshblu-http": "^9.8.0",
-    "meshblu-json-schema-resolver": "^2.0.4",
+    "meshblu-config": "^8.0.1",
+    "meshblu-firehose-socket.io": "^4.0.2",
+    "meshblu-http": "^10.0.6",
+    "meshblu-json-schema-resolver": "^3.0.0",
     "meshblu-websocket": "^4.0.0",
     "meshblu-xmpp": "^1.4.4",
     "moment": "^2.18.1",
